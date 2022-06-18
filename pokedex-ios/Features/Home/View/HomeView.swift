@@ -10,6 +10,9 @@ import SwiftUI
 struct HomeView: View {
     
     @ObservedObject var viewModel: HomeViewModel
+    
+    private let gridItems = [GridItem(.flexible()), GridItem(.flexible())]
+    
     var body: some View {
         Group {
             switch viewModel.uiState {
@@ -31,12 +34,13 @@ extension HomeView {
     func homePage(pokemons: [Pokemon]) -> some View {
         NavigationView {
             List(pokemons, id: \.id) { pokemon in
-//                Text(pokemon.name)
-                AsyncImage(url: URL(string: pokemon.imageUrl ?? ""))
-            }.navigationTitle("Pokemons")
+                PokemonCell(pokemon: pokemon)
+            }.navigationTitle("Pokemons");
         }
+        
     }
 }
+
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {

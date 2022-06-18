@@ -7,13 +7,17 @@
 
 import Foundation
 
-struct PokemonsResponse : Codable {
+struct PokemonsResponse : Decodable {
     var results: [Pokemon]
 }
 
-class Pokemon: Codable, Identifiable {
+class Pokemon: Decodable, Identifiable {
     let id = UUID()
     var name: String
     var url: String
     var imageUrl: String? = nil
 }
+
+//let MOCK_POKEMON = [
+//    
+//]
