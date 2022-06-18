@@ -11,7 +11,9 @@ import SwiftUI
 struct pokedex_iosApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            let repository = HomeInteractor()
+            let viewModel = HomeViewModel(dataSource: repository)
+            HomeView(viewModel: viewModel)
         }
     }
 }
