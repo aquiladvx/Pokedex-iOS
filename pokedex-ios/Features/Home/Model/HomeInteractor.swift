@@ -10,7 +10,7 @@ import Combine
 
 class HomeInteractor {
     
-    private let remote: RemoteDataSource = .shared
+    private let remote: PokemonDataSource = .shared
 //    private let local
     
     func fetchAllPokemons() -> Future<PokemonsResponse, AppError> {

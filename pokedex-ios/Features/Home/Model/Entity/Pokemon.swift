@@ -12,12 +12,12 @@ struct PokemonsResponse : Decodable {
 }
 
 class Pokemon: Decodable, Identifiable {
-    let id = UUID()
     var name: String
     var url: String
-    var imageUrl: String? = nil
+    var id: Int {
+        Int(String(url.split(separator: "/").last!))!
+    }
+    var imageUrl: URL {
+        URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(id).png")!
+    }
 }
-
-//let MOCK_POKEMON = [
-//    
-//]

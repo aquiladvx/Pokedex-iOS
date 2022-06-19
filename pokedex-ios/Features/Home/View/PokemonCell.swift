@@ -23,7 +23,7 @@ struct PokemonCell: View {
                 
                 Spacer()
                 
-                KFImage(URL(string: pokemon.imageUrl ?? ""))
+                KFImage(pokemon.imageUrl)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 68, height: 68)
@@ -31,14 +31,6 @@ struct PokemonCell: View {
             }
             .background(Color.white)
             .cornerRadius(12)
-            .frame(width: .infinity)
         }
     }
 }
-
-//struct PokemonCell_Previews: PreviewProvider {
-//    static var previews: some View {
-//        PokemonCell(pokemon: pokemon)
-//            .background(Color.black)
-//    }
-//}

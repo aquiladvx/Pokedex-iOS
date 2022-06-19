@@ -10,8 +10,8 @@ import SwiftUI
 struct HomeView: View {
     
     @ObservedObject var viewModel: HomeViewModel
-    
-    private let gridItems = [GridItem(.flexible()), GridItem(.flexible())]
+    @State var action: Int? = 0
+    @State var navigationHidden = true
     
     var body: some View {
         Group {
@@ -34,7 +34,14 @@ extension HomeView {
     func homePage(pokemons: [Pokemon]) -> some View {
         NavigationView {
             List(pokemons, id: \.id) { pokemon in
-                PokemonCell(pokemon: pokemon)
+                ZStack {
+                    NavigationLink(
+                        destination:
+                            viewModel.goToPokemonDetail(pokemon: pokemon)) {
+                                PokemonCell(pokemon: pokemon)
+                            }
+                }
+                
             }.navigationTitle("Pokemons");
         }
         

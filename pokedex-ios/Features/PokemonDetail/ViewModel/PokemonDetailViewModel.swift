@@ -1,20 +1,23 @@
 //
-//  HomeViewModel.swift
+//  PokemonDetailViewModel.swift
 //  pokedex-ios
 //
-//  Created by Davi Aquila on 2022-06-18.
+//  Created by Davi Aquila on 2022-06-19.
 //
 
 import SwiftUI
 import Combine
 
-class HomeViewModel: ObservableObject {
-    @Published var uiState: HomeUIState = .none
-    var dataSource: HomeInteractor
+class PokemonDetailViewModel: ObservableObject {
+    @Published var uiState: PokemonDetailUIState = .none
+    @Published var pokemon: Pokemon? = nil
+    @Published var pokemonDetail: PokemonDetail? = nil
+    
+    var dataSource: PokemonDetailInteractor
     
     private var cancellable: [AnyCancellable?] = []
     
-    init(dataSource: HomeInteractor) {
+    init(dataSource: PokemonDetailInteractor) {
         self.dataSource = dataSource
     }
     
@@ -24,16 +27,17 @@ class HomeViewModel: ObservableObject {
         }
     }
     
-    func onAppear() {
-        fetchAllPokemons()
+    func onAppear(pokemon: Pokemon) {
+        self.pokemon = pokemon
+        fetchPokemonDetail()
     }
-    
 }
 
-extension HomeViewModel {
-    func fetchAllPokemons() {
+extension PokemonDetailViewModel {
+    func fetchPokemonDetail() {
         uiState = .loading
-        let promise = dataSource.fetchAllPokemons()
+        
+        let promise = dataSource.fetchPokemonDetail(pokemonId: self.pokemon!.id)
             .receive(on: DispatchQueue.main)
             .sink { completion in
                 switch (completion) {
@@ -43,16 +47,9 @@ extension HomeViewModel {
                         break
                 }
             } receiveValue: { data in
-                self.uiState = .onResult(data: data)
+                self.pokemonDetail = data
+                self.uiState = .onResult
             }
         cancellable.append(promise)
     }
-     
 }
-
-extension HomeViewModel {
-    func goToPokemonDetail(pokemon: Pokemon) -> some View {
-        return HomeViewRouter.makePokemonDetailView(pokemon: pokemon)
-    }
-}
-
